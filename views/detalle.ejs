@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalle del Usuario</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container my-5">
+    <% if (!usuario) { %>
+      <div class="alert alert-danger" role="alert">
+        Usuario no encontrado.
+      </div>
+      <a href="/mostrar-todos" class="btn btn-primary">Volver al listado</a>
+    <% } else { %>
+      <h1 class="mb-4">Detalle del Usuario: <%= usuario.nombre %></h1>
+      <form method="POST" action="/editar/<%= usuario.id %>?_method=PUT" class="mb-4">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" value="<%= usuario.nombre %>" readonly required />
+        </div>
+
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="telefono" name="telefono" value="<%= usuario.telefono %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="mac" class="form-label">MAC</label>
+          <input type="text" class="form-control" id="mac" name="mac" value="<%= usuario.mac %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="app" class="form-label">App</label>
+          <input type="text" class="form-control" id="app" name="app" value="<%= usuario.app %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="plataforma" class="form-label">Plataforma</label>
+          <input type="text" class="form-control" id="plataforma" name="plataforma" value="<%= usuario.plataforma %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="valor" class="form-label">Valor</label>
+          <input type="text" class="form-control" id="valor" name="valor" value="<%= usuario.valor %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="compartida" class="form-label">Compartida</label>
+          <input type="text" class="form-control" id="compartida" name="compartida" value="<%= usuario.compartida %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="url" class="form-label">URL</label>
+          <input type="url" class="form-control" id="url" name="url" value="<%= usuario.url %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="fecha_contratacion" class="form-label">Fecha Contratación</label>
+          <input type="date" class="form-control" id="fecha_contratacion" name="fecha_contratacion" value="<%= usuario.fecha_contratacion %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="fecha_vencimiento_plan" class="form-label">Fecha Vencimiento Plan</label>
+          <input type="date" class="form-control" id="fecha_vencimiento_plan" name="fecha_vencimiento_plan" value="<%= usuario.fecha_vencimiento_plan %>" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="fecha_vencimiento_app" class="form-label">Fecha Vencimiento App</label>
+          <input type="date" class="form-control" id="fecha_vencimiento_app" name="fecha_vencimiento_app" value="<%= usuario.fecha_vencimiento_app %>" readonly />
+        </div>
+
+        <button type="button" id="btnEditar" class="btn btn-warning">Editar</button>
+        <button type="submit" id="btnActualizar" class="btn btn-success" style="display:none;">Actualizar</button>
+      </form>
+
+      <form method="POST" action="/eliminar/<%= usuario.id %>?_method=DELETE" onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?');">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+      </form>
+
+      <a href="/mostrar-todos" class="btn btn-secondary mt-3">Volver al listado</a>
+    <% } %>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const btnEditar = document.getElementById('btnEditar');
+    const btnActualizar = document.getElementById('btnActualizar');
+
+    btnEditar.addEventListener('click', () => {
+      const inputs = document.querySelectorAll('form input');
+      inputs.forEach(input => {
+        input.removeAttribute('readonly');
+      });
+
+      btnActualizar.style.display = 'inline-block';
+      btnEditar.style.display = 'none';
+    });
+  </script>
+</body>
+</html>

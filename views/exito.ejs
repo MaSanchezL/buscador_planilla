@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Actualización exitosa</title>
+  <script>
+    // Mostrar alerta y luego redirigir
+    window.onload = function() {
+      alert("<%= mensaje %>");
+      window.location.href = "<%= urlDestino %>";
+    };
+  </script>
+</head>
+<body>
+  <!-- Opcional: contenido para usuarios sin JS -->
+  <noscript>
+    <p><%= mensaje %></p>
+    <p><a href="<%= urlDestino %>">Haz clic aquí para continuar</a></p>
+  </noscript>
+</body>
+</html>
