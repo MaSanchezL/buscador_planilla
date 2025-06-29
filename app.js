@@ -25,10 +25,13 @@ if (!fs.existsSync(credentialsPath)) {
 }
 console.log('✅ Archivo de credenciales encontrado.');
 
+const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+
 const auth = new google.auth.GoogleAuth({
-  keyFile: credentialsPath,
+  credentials: credentials,
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
+
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 const SHEET_NAME = process.env.SHEET_NAME;
