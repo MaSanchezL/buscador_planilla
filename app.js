@@ -30,8 +30,8 @@ try {
   console.error('❌ Error al parsear GOOGLE_SERVICE_ACCOUNT_KEY:', error.message);
   process.exit(1);
 }
-
-
+console.log(' auth fuera del try catch')
+console.log(auth);
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 const SHEET_NAME = process.env.SHEET_NAME;
 
@@ -40,6 +40,8 @@ let sheets;
 
 // Inicializar cliente Sheets
 async function inicializarSheets() {
+  console.log('Inicializar Sheets');
+  console.log(auth);
   const client = await auth.getClient();
   sheets = google.sheets({ version: 'v4', auth: client });
 }
