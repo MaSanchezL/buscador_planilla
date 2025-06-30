@@ -18,21 +18,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Validar archivo de credenciales
-const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-if (!fs.existsSync(credentialsPath)) {
-  console.error(`❌ Archivo de credenciales no encontrado: ${credentialsPath}`);
+try {
+  const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+  const auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+  console.log('✅ Credenciales cargadas desde variable de entorno.');
+} catch (error) {
+  console.error('❌ Error al parsear GOOGLE_SERVICE_ACCOUNT_KEY:', error.message);
   process.exit(1);
 }
-console.log('✅ Archivo de credenciales encontrado.');
-
-console.log('KEY ENV VARIABLE:', process.env.GOOGLE_SERVICE_ACCOUNT_KEY)
-
-const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-
-const auth = new google.auth.GoogleAuth({
-  credentials: credentials,
-  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-});
 
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
