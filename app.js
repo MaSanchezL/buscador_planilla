@@ -16,22 +16,18 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// Validar archivo de credenciales
-const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-if (!fs.existsSync(credentialsPath)) {
-  console.error(`❌ Archivo de credenciales no encontrado: ${credentialsPath}`);
+var auth = new google.auth.GoogleAuth();
+try {
+  const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+   auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+  console.log('✅ Credenciales cargadas desde variable de entorno.');
+} catch (error) {
+  console.error('❌ Error al parsear GOOGLE_SERVICE_ACCOUNT_KEY:', error.message);
   process.exit(1);
 }
-console.log('✅ Archivo de credenciales encontrado.');
-
-const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-
-const auth = new google.auth.GoogleAuth({
-  credentials: credentials,
-  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-});
-
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 const SHEET_NAME = process.env.SHEET_NAME;
 
@@ -40,6 +36,7 @@ let sheets;
 
 // Inicializar cliente Sheets
 async function inicializarSheets() {
+
   const client = await auth.getClient();
   sheets = google.sheets({ version: 'v4', auth: client });
 }
@@ -108,7 +105,7 @@ async function obtenerDatos() {
       spreadsheetId: SPREADSHEET_ID,
       range: `${SHEET_NAME}!A1:Z1000`, // Ajusta rango según tus datos
     });
-
+    console.log(response)
     const [headers, ...rows] = response.data.values || [[], []];
     const datos = rows.map(fila => {
       const obj = Object.fromEntries(headers.map((col, i) => [col, fila[i] || '']));
@@ -201,8 +198,10 @@ app.get('/mostrar-todos', async (req, res) => {
       : datos;
     res.render('tabla', { datos: filtrados });
   } catch (error) {
+    console.error('Error al acceder a los datos',error);
     res.status(500).send('Error al acceder a los datos.');
   }
+
 });
 
 app.get('/detalle/:id', async (req, res) => {
