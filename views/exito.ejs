@@ -3,6 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <title>Actualización exitosa</title>
+  <style>
+    body {
+      background-color: #2c3e50; /* Azul medianoche */
+      color: #ecf0f1; /* Gris claro */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    p {
+      background-color: #34495e; /* Gris oscuro para el mensaje */
+      padding: 20px 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      font-size: 1.2em;
+    }
+    a {
+      color: #3498db; /* Azul vibrante */
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
   <script>
     // Mostrar alerta y luego redirigir
     window.onload = function() {
@@ -12,7 +39,6 @@
   </script>
 </head>
 <body>
-  <!-- Opcional: contenido para usuarios sin JS -->
   <noscript>
     <p><%= mensaje %></p>
     <p><a href="<%= urlDestino %>">Haz clic aquí para continuar</a></p>
