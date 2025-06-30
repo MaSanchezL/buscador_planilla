@@ -108,7 +108,7 @@ async function obtenerDatos() {
       spreadsheetId: SPREADSHEET_ID,
       range: `${SHEET_NAME}!A1:Z1000`, // Ajusta rango según tus datos
     });
-
+    console.log(response)
     const [headers, ...rows] = response.data.values || [[], []];
     const datos = rows.map(fila => {
       const obj = Object.fromEntries(headers.map((col, i) => [col, fila[i] || '']));
