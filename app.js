@@ -25,6 +25,7 @@ try {
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
   console.log('✅ Credenciales cargadas desde variable de entorno.');
+  console.log(auth)
 } catch (error) {
   console.error('❌ Error al parsear GOOGLE_SERVICE_ACCOUNT_KEY:', error.message);
   process.exit(1);
@@ -200,8 +201,8 @@ app.get('/mostrar-todos', async (req, res) => {
       : datos;
     res.render('tabla', { datos: filtrados });
   } catch (error) {
-    console.log(error)
-    res.status(500).send('Error al acceder a los datos.'+error);
+    console.error('Error al acceder a los datos',error);
+    res.status(500).send('Error al acceder a los datos.');
   }
 
 });
