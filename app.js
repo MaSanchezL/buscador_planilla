@@ -200,8 +200,10 @@ app.get('/mostrar-todos', async (req, res) => {
       : datos;
     res.render('tabla', { datos: filtrados });
   } catch (error) {
-    res.status(500).send('Error al acceder a los datos.');
+    console.log(error)
+    res.status(500).send('Error al acceder a los datos.'+error);
   }
+
 });
 
 app.get('/detalle/:id', async (req, res) => {
